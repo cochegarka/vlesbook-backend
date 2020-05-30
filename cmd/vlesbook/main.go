@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -8,6 +9,10 @@ import (
 )
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	r := mux.NewRouter()
 	r.HandleFunc("/encrypt", func(writer http.ResponseWriter, request *http.Request) {
 		log.Println("Надо зашифровать")
@@ -19,5 +24,5 @@ func main() {
 
 	// TODO:
 	// Погугли "golang dotenv", разберись как работает, вынеси порт в env загружай через переменные среды (os.Env)
-	log.Fatal(http.ListenAndServe(os.Getenv("PORT"), r))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
 }
