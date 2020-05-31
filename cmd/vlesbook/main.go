@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"vlesbook/pkg/httpHandler"
+	"vlesbook/pkg/handlers"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 		port = "8080"
 	}
 	r := mux.NewRouter()
-	r.HandleFunc("/encrypt", httpHandler.EncryptionHandler)
+	r.HandleFunc("/encrypt", handlers.EncryptionHandler)
 
 	r.HandleFunc("/decrypt", func(writer http.ResponseWriter, request *http.Request) {
 		fmt.Println("Надо расшифровать")
