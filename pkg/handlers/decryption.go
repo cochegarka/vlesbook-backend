@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"vlesbook/pkg/des"
+	"vlesbook/pkg/utils"
 )
 
 func DecryptionHandler(w http.ResponseWriter, r *http.Request) {
@@ -24,7 +25,9 @@ func DecryptionHandler(w http.ResponseWriter, r *http.Request) {
 		iv = key
 	}
 
-	plainText, err := des.Decryption(cipherText, []byte(key), []byte(iv))
+	cipherTextRepresentation := utils.ParseByteSlice(string(cipherText))
+
+	plainText, err := des.Decryption(cipherTextRepresentation, []byte(key), []byte(iv))
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

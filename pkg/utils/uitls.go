@@ -19,7 +19,7 @@ func ParseByteSlice(r string) []byte {
 
 	s := make([]byte, len(elements))
 	for i, v := range elements {
-		d, _ := strconv.ParseUint(v, 16, 64)
+		d, _ := strconv.ParseUint(v, 0, 64)
 		s[i] = byte(d)
 	}
 
