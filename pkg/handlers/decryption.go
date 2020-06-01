@@ -1,29 +1,26 @@
 package handlers
 
 import (
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net/http"
 	"vlesbook/pkg/des"
 )
 
 func DecryptionHandler(w http.ResponseWriter, r *http.Request) {
-	args := mux.Vars(r)
-
 	cipherText, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	key, ok := args["key"]
-	if !ok {
+	key := r.URL.Query().Get("key")
+	if len(key) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	iv, ok := args["iv"]
-	if !ok {
+	iv := r.URL.Query().Get("iv")
+	if len(iv) == 0 {
 		iv = key
 	}
 
