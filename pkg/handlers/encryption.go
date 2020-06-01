@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"io/ioutil"
-	"log"
 	"net/http"
 	"vlesbook/pkg/des"
 )
@@ -11,12 +10,15 @@ import (
 func EncryptionHandler(w http.ResponseWriter, r *http.Request) {
 	plainText, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Println("Bad Request with plain text")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	key := r.URL.Query().Get("key")
+	if len(key) == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	iv := r.URL.Query().Get("iv")
 	if len(iv) == 0 {
