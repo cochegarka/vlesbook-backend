@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -10,8 +9,6 @@ import (
 
 //обработчик
 func EncryptionHandler(w http.ResponseWriter, r *http.Request) {
-	args := mux.Vars(r)
-
 	plainText, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Println("Bad Request with plain text")
@@ -19,16 +16,10 @@ func EncryptionHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	key, ok := args["key"]
-	if !ok {
-		log.Println("Bad Request with keys")
-		log.Println(args)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	key := r.URL.Query().Get("key")
 
-	iv, ok := args["iv"]
-	if !ok {
+	iv := r.URL.Query().Get("iv")
+	if len(iv) == 0 {
 		iv = key
 	}
 
