@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gorilla/mux"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"vlesbook/pkg/des"
 )
@@ -13,12 +14,14 @@ func EncryptionHandler(w http.ResponseWriter, r *http.Request) {
 
 	plainText, err := ioutil.ReadAll(r.Body)
 	if err != nil {
+		log.Println("Bad Request with plain text")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	key, ok := args["key"]
 	if !ok {
+		log.Println("Bad Request with keys")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
