@@ -22,6 +22,7 @@ func EncryptionHandler(w http.ResponseWriter, r *http.Request) {
 	key, ok := args["key"]
 	if !ok {
 		log.Println("Bad Request with keys")
+		log.Println(args)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
