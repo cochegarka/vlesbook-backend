@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"vlesbook/pkg/des"
+	"vlesbook/pkg/utils"
 )
 
 //обработчик
@@ -30,6 +31,9 @@ func EncryptionHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	cipherTextRepresentation := []byte(utils.FormatByteSlice(cipherText))
+
 	w.Header().Set("Content-Type", "text/plain;charset=UTF-8")
-	_, _ = w.Write(cipherText)
+	_, _ = w.Write(cipherTextRepresentation)
 }
