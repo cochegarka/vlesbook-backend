@@ -17,11 +17,8 @@ func main() {
 		port = "8080"
 	}
 	r := mux.NewRouter()
-	r.HandleFunc("/encrypt", handlers.EncryptionHandler)
-
-	r.HandleFunc("/decrypt", func(writer http.ResponseWriter, request *http.Request) {
-		fmt.Println("Надо расшифровать")
-	})
+	r.HandleFunc("/encrypt", handlers.EncryptionHandler).Methods("POST")
+	r.HandleFunc("/decrypt", handlers.DecryptionHandler).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
 	//
